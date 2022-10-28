@@ -1,3 +1,48 @@
 Script that prints the absolute path name of the current working directory.
 
 
+## Files
+All of the following files are programs written in Shell scripting:
+
+• 0-`current_working_directory`
+
+• 1-`listit`
+
+• 10-`back`
+
+• 100-`lets_move`
+
+• 101-`clean_emacs`
+
+• 102-`tree`
+
+• 103-`commas`
+
+• 11-`lists`
+
+• 12-`file_type`
+
+• 13-`symbolic_link`
+
+• 14-`copy_html`
+
+• 2-`bring_me_home`
+
+• 3-`listfiles`
+
+• 4-`listmorefiles`
+
+• 5-`listfilesdigitonly`
+
+• 6-`firstdirectory`
+
+• 7-`movethatfile`
+
+• 8-`firstdelete`
+
+• 9-`firstdirdeletion`
+
+• `school.mgc`
+
+## Author: 
+`Olayeye Muideen Ayomide`
