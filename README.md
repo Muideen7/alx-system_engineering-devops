@@ -18,3 +18,6 @@ All of the following files are programs written in Bash Shell:
 * 0x01-`shell_permission`
 * 0x02-`shell_redirection`
 * 0x03-`shell_variables_execution`
+
+## Author: 
+`Olayeye Muideen Ayomide`
