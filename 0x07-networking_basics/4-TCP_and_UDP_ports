@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#What is a TCP and UDP port?
+#Show which port is listening.
+
+netstat -1 --program
