@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#Accepts a string as an argument
+#Displays Usage: 5-is_the_host_on_the_network {IP_ADDRESS} if no argument passed
+#Ping the IP 5 times
+
+for input in "$@" 
+
+    do  
+        ping=$(ping -c 1 $@ | grep bytes | wc -l)
+        if [ $ping -gt 1 ];  then 
+            echo "L'address IP ping"
+        else
+            echo "L'adresse IP ne ping pas"
+        fi  
+    done
