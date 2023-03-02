@@ -24,7 +24,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 * [0x08. Networking basics #1](0x08-networking_basics_2)
 
 
-#### Author :spanner:
+#### Author 💻:
 
 * __Olayeye Ayomide__ <[muideen7](https://github.com/muideen7)>
 
@@ -38,14 +38,3 @@ All work contained in this project was completed as part of the curriculum for A
        alt="ALX Africa Logo"
   >
 </p>
-
-
-## Files
-All of the following files are programs written in Bash Shell:
-* 0x00-`shell_basics`
-* 0x01-`shell_permission`
-* 0x02-`shell_redirection`
-* 0x03-`shell_variables_execution`
-
-## Author: 
-`Olayeye Muideen Ayomide`
