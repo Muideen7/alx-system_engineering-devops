@@ -1,0 +1,7 @@
+Host *
+    PasswordAuthentication no
+
+Host alx
+    Hostname 3.85.33.102
+    user ubuntu
+    IdentityFile ~/.ssh/school
