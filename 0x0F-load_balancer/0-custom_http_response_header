@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Install Nginx with the following configurations:
+# Listens on port 80 of all active IPv4 IPs
+# Sets up a custom server block with a sample website and a custom 404 error page
+
+sudo apt-get -y update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+sudo mkdir -p /var/www/mywebsite /var/www/error
+sudo chmod -R 755 /var/www
+echo 'Welcome to my website!' > /var/www/mywebsite/index.html
+echo 'Sorry, the page you are looking for does not exist.' > /var/www/error/404.html
+server_config=\
+"server {
+	listen 80;
+	listen [::]:80;
+	server_name _;
+	root /var/www/mywebsite;
+	index index.html;
+	add_header X-Served-By \$hostname;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+	error_page 404 /404.html;
+	location = /404.html {
+		internal;
+	}
+}"
+
+echo "$server_config" | sudo tee /etc/nginx/sites-enabled/mywebsite.conf
+sudo systemctl restart nginx
+
