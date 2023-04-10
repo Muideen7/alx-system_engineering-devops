@@ -1,0 +1,41 @@
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option redispatch
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+    option  forwardfor
+    option  http-server-close
+
+frontend www-http
+    bind   0.0.0.0:80
+    reqadd X-Forwarded-Proto:\ http
+    default_backend www-backend
+
+frontend https
+    bind *:443 ssl crt /etc/ssl/certs/www.frontendnerd.tech.pem
+    reqadd X-Forwarded-Proto:\ https
+    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
+    use_backend letsencrypt-backend if letsencrypt-acl
+    default_backend www-backend
+
+backend www-backend
+    balance     roundrobin
+    option      httpchk HEAD / HTTP/1.0
+    option      httpclose
+    option      forwardfor
+    server      103742-web-01 54.237.52.200:80 check
+    server      103742-web-02 34.224.62.212:80 check
+
