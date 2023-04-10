@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Function to display subdomain information
+function display_subdomain_info() {
+    local domain="$1"
+    local subdomain="$2"
+    local result="$(dig +short "$subdomain.$domain" | awk '{ print $1 }')"
+    local record_type="$(dig "$subdomain.$domain" | awk '/IN\s+.*\s+/{print $4}')"
+    printf "The subdomain %s is a %s record and points to %s\n" "$subdomain.$domain" "$record_type" "$result"
+}
+
+# Parse command line arguments
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+    echo "Usage: $0 domain [subdomain]"
+    exit 1
+fi
+
+domain="$1"
+subdomain="${2:-www}"
+
+# Display information for default subdomains (www, lb-01, web-01, web-02) if subdomain is not specified
+if [ "$subdomain" = "www" ] || [ "$subdomain" = "lb-01" ] || [ "$subdomain" = "web-01" ] || [ "$subdomain" = "web-02" ]; then
+    display_subdomain_info "$domain" "$subdomain"
+fi
+
+# Display information for specified subdomain if subdomain is specified
+if [ "$subdomain" != "www" ] && [ "$subdomain" != "lb-01" ] && [ "$subdomain" != "web-01" ] && [ "$subdomain" != "web-02" ]; then
+    display_subdomain_info "$domain" "$subdomain"
+fi
