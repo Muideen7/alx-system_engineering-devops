@@ -1,29 +1,30 @@
 #!/usr/bin/env bash
+# Define a function to get the subdomain information
+get_subdomain_info() {
+  # Use dig to get the DNS information for the subdomain
+  dns_info=$(dig +short $1.$2)
 
-# Function to display subdomain information
-function display_subdomain_info() {
-    local domain="$1"
-    local subdomain="$2"
-    local result="$(dig +short "$subdomain.$domain" | awk '{ print $1 }')"
-    local record_type="$(dig "$subdomain.$domain" | awk '/IN\s+.*\s+/{print $4}')"
-    printf "The subdomain %s is a %s record and points to %s\n" "$subdomain.$domain" "$record_type" "$result"
+  # If the DNS information is empty, exit the function
+  if [[ -z $dns_info ]]; then
+    return
+  fi
+
+  # Use awk to extract the record type and destination
+  record_type=$(echo $dns_info | awk '{print $1}')
+  destination=$(echo $dns_info | awk '{print $2}')
+
+  # Print the subdomain information
+  echo "The subdomain $1 is a $record_type record and points to $destination"
 }
 
-# Parse command line arguments
-if [ $# -lt 1 ] || [ $# -gt 2 ]; then
-    echo "Usage: $0 domain [subdomain]"
-    exit 1
-fi
+# If two arguments are passed, get the information for the specified subdomain
+if [[ $# -eq 2 ]]; then
+  get_subdomain_info $2 $1
 
-domain="$1"
-subdomain="${2:-www}"
-
-# Display information for default subdomains (www, lb-01, web-01, web-02) if subdomain is not specified
-if [ "$subdomain" = "www" ] || [ "$subdomain" = "lb-01" ] || [ "$subdomain" = "web-01" ] || [ "$subdomain" = "web-02" ]; then
-    display_subdomain_info "$domain" "$subdomain"
-fi
-
-# Display information for specified subdomain if subdomain is specified
-if [ "$subdomain" != "www" ] && [ "$subdomain" != "lb-01" ] && [ "$subdomain" != "web-01" ] && [ "$subdomain" != "web-02" ]; then
-    display_subdomain_info "$domain" "$subdomain"
+# Otherwise, get the information for the default subdomains
+else
+  get_subdomain_info www $1
+  get_subdomain_info lb-01 $1
+  get_subdomain_info web-01 $1
+  get_subdomain_info web-02 $1
 fi
