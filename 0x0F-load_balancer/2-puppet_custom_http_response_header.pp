@@ -29,4 +29,3 @@ class nginx_custom_header {
 }
 
 include nginx_custom_header
-
