@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Runs the whoami command with the user passing the command
 
 if [ $# -eq 0 ]; then
