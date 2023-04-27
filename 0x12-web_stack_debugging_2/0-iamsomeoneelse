@@ -1,0 +1,10 @@
+#!/bin/bash
+# Runs the whoami command with the user passing the command
+
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 <username>"
+  exit 1
+fi
+
+sudo -u "$1" whoami
+
