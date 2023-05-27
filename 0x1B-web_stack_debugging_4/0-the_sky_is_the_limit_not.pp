@@ -1,12 +1,28 @@
-# Increases the amount of traffic an Nginx server can handle.
+# Install Nginx package
+package { 'nginx':
+  ensure => installed,
+}
 
-# Increase the ULIMIT of the default file
-exec { 'fix--for-nginx':
-  command => 'sed -i "s/15/4096/" /etc/default/nginx',
-  path    => '/usr/local/bin/:/bin/'
-} ->
+# Configure Nginx server
+file { '/etc/nginx/nginx.conf':
+  ensure  => file,
+  content => template('my_module/nginx.conf.erb'),
+  require => Package['nginx'],
+  notify  => Service['nginx'],
+}
 
-# Restart Nginx
-exec { 'nginx-restart':
-  command => 'nginx restart',
-  path    => '/etc/init.d/'
+# Increase file limit for Nginx
+file { '/etc/default/nginx':
+  ensure  => file,
+  content => "ULIMIT='-n 4096'",
+  require => Package['nginx'],
+  notify  => Service['nginx'],
+}
+
+# Restart Nginx service when configuration changes
+service { 'nginx':
+  ensure  => running,
+  enable  => true,
+  require => Package['nginx'],
+  subscribe => File['/etc/nginx/nginx.conf', '/etc/default/nginx'],
+}
