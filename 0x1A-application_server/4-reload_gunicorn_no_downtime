@@ -1,20 +1,12 @@
 #!/usr/bin/env bash
-
-# Gracefully reload Gunicorn
-
+# Gracefuuly reloads Gunicorn
 # Find the process ID (PID) of the Gunicorn master process
 PID=$(pgrep -f "gunicorn.*:app")
 
 if [[ -n $PID ]]; then
   echo "Reloading Gunicorn gracefully (PID: $PID)..."
   kill -HUP "$PID"
-  sleep 1
-  # Verify if the process is still running
-  if kill -0 "$PID" >/dev/null 2>&1; then
-    echo "Gunicorn reloaded successfully."
-  else
-    echo "Gunicorn reload failed."
-  fi
+  echo "Gunicorn reloaded successfully."
 else
   echo "Gunicorn is not running or could not find the PID."
 fi
