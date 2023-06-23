@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# Gracefuuly reloads Gunicorn
+
+# Gracefully reload Gunicorn
+
 # Find the process ID (PID) of the Gunicorn master process
-PID=$(pgrep -f "gunicorn.*:app")
+PID=$(pgrep -f "gunicorn --bind 0.0.0.0:5003 web_dynamic.2-hbnb:app")
 
 if [[ -n $PID ]]; then
   echo "Reloading Gunicorn gracefully (PID: $PID)..."
